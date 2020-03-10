@@ -3,7 +3,7 @@ using System.Linq;
 
 namespace Lab1.Models
 {
-    internal class Student
+    public class Student
     {
         public string Name { get; set; }
 
