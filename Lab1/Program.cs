@@ -7,13 +7,13 @@ using System.Collections.Generic;
 
 namespace Lab1
 {
-    class Program
+    public class Program
     {
         private readonly static Logger logger = LogManager.GetCurrentClassLogger();
+        const string json = "json";
+        const string excel = "xls";
         static void Main(string[] args)
         {
-            const string json = "JSON";
-            const string excel = "EXCEL";
             List<Student> students = new List<Student>();
             string inputFile = string.Empty;
             string outputFile = string.Empty;
@@ -26,18 +26,18 @@ namespace Lab1
                        {
                            CSVReader reader = new CSVReader();
                            students = reader.Read(inputFile);
-                           switch (o.FileType.ToUpper())
+                           switch (o.FileType.ToLower())
                            {
                                case json:
                                    {
                                        JsonWriter jsonWriter = new JsonWriter();
-                                       jsonWriter.Write(students, $"{outputFile}.json");
+                                       jsonWriter.Write(students, $"{outputFile}.{json}");
                                        break;
                                    }
                                case excel:
                                    {
                                        ExcelWriter excelWriter = new ExcelWriter();
-                                       excelWriter.Write(students, $"{outputFile}.xls");
+                                       excelWriter.Write(students, $"{outputFile}.{excel}");
                                        break;
                                    }
                                default:

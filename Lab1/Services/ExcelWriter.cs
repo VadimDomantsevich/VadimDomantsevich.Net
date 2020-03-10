@@ -6,12 +6,12 @@ using System.IO;
 
 namespace Lab1.Services
 {
-    class ExcelWriter : IWriter
+    public class ExcelWriter : IWriter
     {
+        const string worksheetName = "Sheet 1";
+        const string averageGroupMark = "Average group mark:";
         public void Write(IEnumerable<Student> students, string fileName)
         {
-            const string worksheetName = "Sheet 1";
-            const string averageGroupMark = "Average group mark:";
             using (ExcelPackage excelPackage = new ExcelPackage())
             {
                 //Create the WorkSheet
