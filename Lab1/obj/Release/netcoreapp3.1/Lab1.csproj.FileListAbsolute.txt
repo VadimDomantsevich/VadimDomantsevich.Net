@@ -1,0 +1,13 @@
+C:\Users\Vadya\Documents\GitHub\VadimDomantsevich.Net\Lab1\bin\Release\netcoreapp3.1\Lab1.exe
+C:\Users\Vadya\Documents\GitHub\VadimDomantsevich.Net\Lab1\bin\Release\netcoreapp3.1\Lab1.deps.json
+C:\Users\Vadya\Documents\GitHub\VadimDomantsevich.Net\Lab1\bin\Release\netcoreapp3.1\Lab1.runtimeconfig.json
+C:\Users\Vadya\Documents\GitHub\VadimDomantsevich.Net\Lab1\bin\Release\netcoreapp3.1\Lab1.runtimeconfig.dev.json
+C:\Users\Vadya\Documents\GitHub\VadimDomantsevich.Net\Lab1\bin\Release\netcoreapp3.1\Lab1.dll
+C:\Users\Vadya\Documents\GitHub\VadimDomantsevich.Net\Lab1\bin\Release\netcoreapp3.1\Lab1.pdb
+C:\Users\Vadya\Documents\GitHub\VadimDomantsevich.Net\Lab1\bin\Release\netcoreapp3.1\CsvHelper.dll
+C:\Users\Vadya\Documents\GitHub\VadimDomantsevich.Net\Lab1\obj\Release\netcoreapp3.1\Lab1.csprojAssemblyReference.cache
+C:\Users\Vadya\Documents\GitHub\VadimDomantsevich.Net\Lab1\obj\Release\netcoreapp3.1\Lab1.AssemblyInfoInputs.cache
+C:\Users\Vadya\Documents\GitHub\VadimDomantsevich.Net\Lab1\obj\Release\netcoreapp3.1\Lab1.AssemblyInfo.cs
+C:\Users\Vadya\Documents\GitHub\VadimDomantsevich.Net\Lab1\obj\Release\netcoreapp3.1\Lab1.csproj.CopyComplete
+C:\Users\Vadya\Documents\GitHub\VadimDomantsevich.Net\Lab1\obj\Release\netcoreapp3.1\Lab1.dll
+C:\Users\Vadya\Documents\GitHub\VadimDomantsevich.Net\Lab1\obj\Release\netcoreapp3.1\Lab1.pdb
