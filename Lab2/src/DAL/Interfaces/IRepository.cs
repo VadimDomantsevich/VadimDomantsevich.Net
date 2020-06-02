@@ -1,18 +1,19 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace DAL.Interfaces
 {
     public interface IRepository<T>
         where T : class
     {
-        IQueryable<T> GetAll();
+        Task<IEnumerable<T>> GetAll();
 
-        void Create(T item);
+        Task Create(T item);
 
-        void Update(T item);
+        Task Update(T item);
 
-        void Delete(T item);
+        Task Delete(T item);
 
-        T GetById(int id);
+        Task<T> GetById(int id);
     }
 }

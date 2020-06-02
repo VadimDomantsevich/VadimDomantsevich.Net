@@ -1,5 +1,4 @@
-﻿using BLL.Models;
-using System;
+﻿using DAL.DTO;
 
 namespace UI.ViewModels
 {

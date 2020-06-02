@@ -1,8 +1,9 @@
-﻿using BLL.DI;
-using Microsoft.Extensions.Configuration;
+﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System.IO;
-using UI.View.MainConsoleService;
+using System.Threading.Tasks;
+using UI.DI;
+using UI.Services.MainConsoleService;
 
 namespace UI
 {
@@ -10,7 +11,7 @@ namespace UI
     {
         private const string _configFileName = "appsettings.json";
 
-        static void Main(string[] args)
+        static async Task Main(string[] args)
         {
             var builder = new ConfigurationBuilder();
             builder.SetBasePath(Directory.GetCurrentDirectory());
@@ -20,7 +21,7 @@ namespace UI
             var services = DIConfigurator.Configure(config);
 
             var mainMenu = services.GetService<MainMenuBaseConsoleService>();
-            mainMenu.StartLoop();
+            await mainMenu.StartLoop();
         }
     }
 }

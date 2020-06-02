@@ -1,7 +1,9 @@
-﻿namespace UI.Interfaces
+﻿using System.Threading.Tasks;
+
+namespace UI.Interfaces
 {
     public interface IPrintConsoleService
     {
-        void PrintAll();
+        Task PrintAll();
     }
 }

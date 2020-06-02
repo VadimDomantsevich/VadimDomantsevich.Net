@@ -1,9 +1,11 @@
-﻿namespace UI.Interfaces
+﻿using System.Threading.Tasks;
+
+namespace UI.Interfaces
 {
     public interface IConsoleService
     {
         void PrintMenu();
 
-        void StartLoop();
+        Task StartLoop();
     }
 }

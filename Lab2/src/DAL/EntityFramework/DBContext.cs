@@ -33,31 +33,31 @@ namespace DAL.EntityFramework
                 .HasOne<SpecialtyDTO>()
                 .WithMany()
                 .HasForeignKey(group => group.SpecialtyId)
-                .OnDelete(DeleteBehavior.NoAction);
+                .OnDelete(DeleteBehavior.Cascade);
 
             modelBuilder.Entity<StatementDTO>()
                 .HasOne<StudentDTO>()
                 .WithMany()
                 .HasForeignKey(statement => statement.StudentId)
-                .OnDelete(DeleteBehavior.NoAction);
+                .OnDelete(DeleteBehavior.Cascade);
 
             modelBuilder.Entity<StatementDTO>()
                 .HasOne<SemesterDTO>()
                 .WithMany()
                 .HasForeignKey(statement => statement.SemesterId)
-                .OnDelete(DeleteBehavior.NoAction);
+                .OnDelete(DeleteBehavior.Cascade);
 
             modelBuilder.Entity<StatementDTO>()
                 .HasOne<SubjectDTO>()
                 .WithMany()
                 .HasForeignKey(statement => statement.SubjectId)
-                .OnDelete(DeleteBehavior.NoAction);
+                .OnDelete(DeleteBehavior.Cascade);
 
             modelBuilder.Entity<StudentDTO>()
                 .HasOne<GroupDTO>()
                 .WithMany()
                 .HasForeignKey(student => student.GroupId)
-                .OnDelete(DeleteBehavior.NoAction);
+                .OnDelete(DeleteBehavior.Cascade);
         }
     }
 }

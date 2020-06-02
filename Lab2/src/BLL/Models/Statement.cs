@@ -1,4 +1,6 @@
-﻿namespace BLL.Models
+﻿using DAL.DTO;
+
+namespace BLL.Models
 {
     public class Statement
     {

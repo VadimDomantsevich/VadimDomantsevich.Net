@@ -1,13 +1,15 @@
-﻿namespace UI.Interfaces
+﻿using System.Threading.Tasks;
+
+namespace UI.Interfaces
 {
     public interface ICrudConsoleService<T>
     {
-        void Create();
+        Task Create();
 
-        void Delete();
+        Task Delete();
 
-        void Update();
+        Task Update();
 
-        T CreateModel();
+        Task<T> CreateModel();
     }
 }
