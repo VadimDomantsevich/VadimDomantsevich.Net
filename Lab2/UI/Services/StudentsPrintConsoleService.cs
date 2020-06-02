@@ -5,7 +5,7 @@ using UI.Helpers;
 using UI.Interfaces;
 using UI.ViewModels;
 
-namespace UI.Services.PrintConsoleService
+namespace UI.Services
 {
     public class StudentsPrintConsoleService : IPrintConsoleService
     {

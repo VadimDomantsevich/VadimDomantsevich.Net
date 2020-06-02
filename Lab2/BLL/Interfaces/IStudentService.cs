@@ -6,7 +6,7 @@ namespace BLL.Interfaces
 {
     public interface IStudentService : IService<Student>
     {
-        Task<IEnumerable<Student>> GetStudentsByGroupId(int groupId);
+        Task<List<Student>> GetStudentsByGroupId(int groupId);
 
         Task<Student> GetStudentByRecordNumber(string recordNumber);
 

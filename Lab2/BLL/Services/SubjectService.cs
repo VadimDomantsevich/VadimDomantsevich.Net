@@ -63,10 +63,10 @@ namespace BLL.Services
             return _mapper.Map<SubjectDTO, Subject>(subject);
         }
 
-        public async Task<IEnumerable<Subject>> GetAll()
+        public async Task<List<Subject>> GetAll()
         {
             var subjects = await _subjectRepository.GetAll();
-            return _mapper.Map<IEnumerable<SubjectDTO>, List<Subject>>(subjects);
+            return _mapper.Map<List<SubjectDTO>, List<Subject>>(subjects);
         }
 
         public async Task Update(Subject subject)

@@ -2,7 +2,7 @@
 using System.Threading.Tasks;
 using UI.Interfaces;
 
-namespace UI.Services.MainConsoleService
+namespace UI.Services
 {
     public class MainMenuBaseConsoleService : IConsoleService
     {

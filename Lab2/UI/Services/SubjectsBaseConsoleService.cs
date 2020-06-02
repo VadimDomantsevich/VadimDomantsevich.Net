@@ -3,9 +3,8 @@ using BLL.Models;
 using System;
 using System.Threading.Tasks;
 using UI.Interfaces;
-using UI.Services.PrintConsoleService;
 
-namespace UI.Services.MainConsoleService
+namespace UI.Services
 {
     public class SubjectsBaseConsoleService : IConsoleService
     {

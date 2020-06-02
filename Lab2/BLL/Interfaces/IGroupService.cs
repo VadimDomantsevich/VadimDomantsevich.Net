@@ -6,7 +6,7 @@ namespace BLL.Interfaces
 {
     public interface IGroupService : IService<Group>
     {
-        Task<IEnumerable<Group>> GetGroupsBySpecialtyId(int specialtyId);
+        Task<List<Group>> GetGroupsBySpecialtyId(int specialtyId);
 
         Task<Group> GetGroupByName(string name);
     }

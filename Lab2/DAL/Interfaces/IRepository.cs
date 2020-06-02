@@ -6,7 +6,7 @@ namespace DAL.Interfaces
     public interface IRepository<T>
         where T : class
     {
-        Task<IEnumerable<T>> GetAll();
+        Task<List<T>> GetAll();
 
         Task Create(T item);
 

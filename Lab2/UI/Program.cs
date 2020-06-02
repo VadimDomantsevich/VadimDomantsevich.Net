@@ -3,7 +3,7 @@ using Microsoft.Extensions.DependencyInjection;
 using System.IO;
 using System.Threading.Tasks;
 using UI.DI;
-using UI.Services.MainConsoleService;
+using UI.Services;
 
 namespace UI
 {

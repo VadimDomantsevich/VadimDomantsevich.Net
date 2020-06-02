@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using UI.Helpers;
 using UI.Interfaces;
 
-namespace UI.Services.CrudConsoleService
+namespace UI.Services
 {
     public class StatementsCrudConsoleService : ICrudConsoleService<Statement>
     {

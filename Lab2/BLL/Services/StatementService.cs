@@ -57,32 +57,32 @@ namespace BLL.Services
             return _mapper.Map<StatementDTO, Statement>(statement);
         }
 
-        public async Task<IEnumerable<Statement>> GetAll()
+        public async Task<List<Statement>> GetAll()
         {
             var statements = await _statementRepository.GetAll();
 
-            return _mapper.Map<IEnumerable<StatementDTO>, List<Statement>>(statements);
+            return _mapper.Map<List<StatementDTO>, List<Statement>>(statements);
         }
 
-        public async Task<IEnumerable<Statement>> GetStatementsByStudentId(int studentId)
+        public async Task<List<Statement>> GetStatementsByStudentId(int studentId)
         {
-            var statements = (await _statementRepository.GetAll()).Where(statement => statement.StudentId == studentId);
+            var statements = (await _statementRepository.GetAll()).Where(statement => statement.StudentId == studentId).ToList();
 
-            return _mapper.Map<IEnumerable<StatementDTO>, List<Statement>>(statements);
+            return _mapper.Map<List<StatementDTO>, List<Statement>>(statements);
         }
 
-        public async Task<IEnumerable<Statement>> GetStatementsBySubjectId(int subjectId)
+        public async Task<List<Statement>> GetStatementsBySubjectId(int subjectId)
         {
-            var statements = (await _statementRepository.GetAll()).Where(statement => statement.SubjectId == subjectId);
+            var statements = (await _statementRepository.GetAll()).Where(statement => statement.SubjectId == subjectId).ToList();
 
-            return _mapper.Map<IEnumerable<StatementDTO>, List<Statement>>(statements);
+            return _mapper.Map<List<StatementDTO>, List<Statement>>(statements);
         }
 
-        public async Task<IEnumerable<Statement>> GetStatementsBySemesterId(int semesterId)
+        public async Task<List<Statement>> GetStatementsBySemesterId(int semesterId)
         {
-            var statements = (await _statementRepository.GetAll()).Where(statement => statement.SemesterId == semesterId);
+            var statements = (await _statementRepository.GetAll()).Where(statement => statement.SemesterId == semesterId).ToList();
 
-            return _mapper.Map<IEnumerable<StatementDTO>, List<Statement>>(statements);
+            return _mapper.Map<List<StatementDTO>, List<Statement>>(statements);
         }
 
         public async Task Update(Statement statement)

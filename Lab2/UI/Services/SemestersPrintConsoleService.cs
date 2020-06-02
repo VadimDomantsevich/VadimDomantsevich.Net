@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 using UI.Helpers;
 using UI.Interfaces;
 
-namespace UI.Services.PrintConsoleService
+namespace UI.Services
 {
     public class SemestersPrintConsoleService : IPrintConsoleService
     {

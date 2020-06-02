@@ -27,7 +27,7 @@ namespace DAL.EntityFramework
             await _dBContext.SaveChangesAsync();
         }
 
-        public async Task<IEnumerable<T>> GetAll()
+        public async Task<List<T>> GetAll()
         {
             var items = await _dBContext.Set<T>().AsNoTracking().ToListAsync();
             return items;

@@ -13,6 +13,6 @@ namespace BLL.Interfaces
 
         Task<T> GetById(int id);
 
-        Task<IEnumerable<T>> GetAll();
+        Task<List<T>> GetAll();
     }
 }

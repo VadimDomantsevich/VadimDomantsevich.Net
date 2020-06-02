@@ -81,18 +81,18 @@ namespace BLL.Services
             return _mapper.Map<StudentDTO, Student>(student);
         }
 
-        public async Task<IEnumerable<Student>> GetAll()
+        public async Task<List<Student>> GetAll()
         {
             var students = await _studentRepository.GetAll();
 
-            return _mapper.Map<IEnumerable<StudentDTO>, List<Student>>(students);
+            return _mapper.Map<List<StudentDTO>, List<Student>>(students);
         }
 
-        public async Task<IEnumerable<Student>> GetStudentsByGroupId(int groupId)
+        public async Task<List<Student>> GetStudentsByGroupId(int groupId)
         {
-            var students = (await _studentRepository.GetAll()).Where(student => student.GroupId == groupId);
+            var students = (await _studentRepository.GetAll()).Where(student => student.GroupId == groupId).ToList();
 
-            return _mapper.Map<IEnumerable<StudentDTO>, List<Student>>(students);
+            return _mapper.Map<List<StudentDTO>, List<Student>>(students);
         }
 
         public async Task Update(Student student)

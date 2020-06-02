@@ -54,10 +54,10 @@ namespace BLL.Services
             return _mapper.Map<SemesterDTO, Semester>(semesterDTO);
         }
 
-        public async Task<IEnumerable<Semester>> GetAll()
+        public async Task<List<Semester>> GetAll()
         {
             var semesters = await _semesterRepository.GetAll();
-            return _mapper.Map<IEnumerable<SemesterDTO>, List<Semester>>(semesters);
+            return _mapper.Map<List<SemesterDTO>, List<Semester>>(semesters);
         }
 
         public async Task Update(Semester semester)

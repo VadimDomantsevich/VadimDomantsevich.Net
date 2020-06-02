@@ -74,17 +74,17 @@ namespace BLL.Services
             return _mapper.Map<GroupDTO, Group>(groupDTO);
         }
 
-        public async Task<IEnumerable<Group>> GetAll()
+        public async Task<List<Group>> GetAll()
         {
             var groups = await _groupRepository.GetAll();
-            return _mapper.Map<IEnumerable<GroupDTO>, List<Group>>(groups);
+            return _mapper.Map<List<GroupDTO>, List<Group>>(groups);
         }
 
-        public async Task<IEnumerable<Group>> GetGroupsBySpecialtyId(int specialtyId)
+        public async Task<List<Group>> GetGroupsBySpecialtyId(int specialtyId)
         {
-            var groups = (await _groupRepository.GetAll()).Where(group => group.SpecialtyId == specialtyId);
+            var groups = (await _groupRepository.GetAll()).Where(group => group.SpecialtyId == specialtyId).ToList();
 
-            return _mapper.Map<IEnumerable<GroupDTO>, List<Group>>(groups);
+            return _mapper.Map<List<GroupDTO>, List<Group>>(groups);
         }
 
         public async Task Update(Group group)

@@ -56,11 +56,11 @@ namespace BLL.Services
             }
 
             //Delete all groups and students from this specialty
-            var groups = (await _groupRepository.GetAll()).Where(group => group.SpecialtyId == id);
-            IEnumerable<StudentDTO> students;
+            var groups = (await _groupRepository.GetAll()).Where(group => group.SpecialtyId == id).ToList();
+            List<StudentDTO> students;
             foreach (var group in groups)
             {
-                students = (await _studentRepository.GetAll()).Where(student => student.GroupId == group.Id);
+                students = (await _studentRepository.GetAll()).Where(student => student.GroupId == group.Id).ToList();
 
                 foreach (var student in students)
                 {
@@ -73,10 +73,10 @@ namespace BLL.Services
             await _specialtyRepository.Delete(await _specialtyRepository.GetById(id));
         }
 
-        public async Task<IEnumerable<Specialty>> GetAll()
+        public async Task<List<Specialty>> GetAll()
         {
             var specialties = await _specialtyRepository.GetAll();
-            return _mapper.Map<IEnumerable<SpecialtyDTO>, List<Specialty>>(specialties);
+            return _mapper.Map<List<SpecialtyDTO>, List<Specialty>>(specialties);
         }
 
         public async Task<Specialty> GetById(int id)

@@ -6,10 +6,10 @@ namespace BLL.Interfaces
 {
     public interface IStatementService : IService<Statement>
     {
-        Task<IEnumerable<Statement>> GetStatementsByStudentId(int studentId);
+        Task<List<Statement>> GetStatementsByStudentId(int studentId);
 
-        Task<IEnumerable<Statement>> GetStatementsBySubjectId(int subjectId);
+        Task<List<Statement>> GetStatementsBySubjectId(int subjectId);
 
-        Task<IEnumerable<Statement>> GetStatementsBySemesterId(int semesterId);
+        Task<List<Statement>> GetStatementsBySemesterId(int semesterId);
     }
 }

@@ -4,7 +4,7 @@ using System;
 using System.Threading.Tasks;
 using UI.Interfaces;
 
-namespace UI.Services.CrudConsoleService
+namespace UI.Services
 {
     public class SubjectsCrudConsoleService : ICrudConsoleService<Subject>
     {

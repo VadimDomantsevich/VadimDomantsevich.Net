@@ -11,6 +11,5 @@
         public int GroupId { get; set; }
 
         public string PhoneNumber { get; set; }
-
     }
 }
