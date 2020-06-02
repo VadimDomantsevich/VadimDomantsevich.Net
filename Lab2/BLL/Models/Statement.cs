@@ -1,6 +1,4 @@
-﻿using DAL.DTO;
-
-namespace BLL.Models
+﻿namespace BLL.Models
 {
     public class Statement
     {
@@ -14,6 +12,6 @@ namespace BLL.Models
 
         public int Mark { get; set; }
 
-        public TypeOfSertification TypeOfSertification { get; set; }
+        public string TypeOfSertification { get; set; }
     }
 }

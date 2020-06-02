@@ -1,5 +1,4 @@
-﻿using DAL.DTO;
-using Microsoft.AspNetCore.Mvc.Rendering;
+﻿using Microsoft.AspNetCore.Mvc.Rendering;
 using System.ComponentModel.DataAnnotations;
 
 namespace WebUI.Models
@@ -32,7 +31,7 @@ namespace WebUI.Models
         public int Mark { get; set; }
 
         [Required]
-        public TypeOfSertification TypeOfSertification { get; set; }
+        public string TypeOfSertification { get; set; }
 
         public SelectList Students { get; set; }
 
