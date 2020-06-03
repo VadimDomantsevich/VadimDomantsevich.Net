@@ -48,11 +48,7 @@ namespace UI.Services
                 Console.WriteLine("Enter Id of semester:");
                 var semesterId = int.Parse(Console.ReadLine() ?? throw new InvalidOperationException());
 
-                Console.WriteLine("Choose type of sertification:");
-                Console.WriteLine("1. Exam");
-                Console.WriteLine("2. Colloqeum");
-                Console.WriteLine("3. Test");
-                var typeOfSertification = (TypeOfSertification)(int.Parse(Console.ReadLine() ?? throw new InvalidOperationException()) - 1);
+                var typeOfSertification = Console.ReadLine();
 
                 Console.WriteLine("Enter mark:");
                 var mark = int.Parse(Console.ReadLine() ?? throw new InvalidOperationException());

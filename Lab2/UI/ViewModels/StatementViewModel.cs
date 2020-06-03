@@ -1,6 +1,4 @@
-﻿using DAL.DTO;
-
-namespace UI.ViewModels
+﻿namespace UI.ViewModels
 {
     public class StatementViewModel
     {
@@ -16,6 +14,6 @@ namespace UI.ViewModels
 
         public int Mark { get; set; }
 
-        public TypeOfSertification TypeOfSertification { get; set; }
+        public string TypeOfSertification { get; set; }
     }
 }

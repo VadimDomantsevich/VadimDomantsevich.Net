@@ -12,6 +12,6 @@
 
         public int Mark { get; set; }
 
-        public TypeOfSertification TypeOfSertification { get; set; }
+        public string TypeOfSertification { get; set; }
     }
 }

@@ -1,0 +1,46 @@
+﻿@model StatementViewModel
+
+@{ ViewData["Title"] = "Details"; }
+
+<h1>Details</h1>
+
+<div>
+    <h4>Statement</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            <label asp-for="StudentFullName"></label>
+        </dt>
+        <dd class="col-sm-10">
+            <a asp-controller="Students" asp-action="Details" asp-route-id="@Model.StudentId"></a>
+        </dd>
+        <dt class="col-sm-2">
+            <label asp-for="SubjectName"></label>
+        </dt>
+        <dd class="col-sm-10">
+            <a asp-controller="Subjects" asp-action="Details" asp-route-id="@Model.SubjectId"></a>
+        </dd>
+        <dt class="col-sm-2">
+            <label asp-for="SemesterNumber"></label>
+        </dt>
+        <dd class="col-sm-10">
+            <a asp-controller="Semesters" asp-action="Details" asp-route-id="@Model.SemesterId"></a>
+        </dd>
+        <dt class="col-sm-2">
+            <label asp-for="TypeOfSertification"></label>
+        </dt>
+        <dd class="col-sm-10">
+            @Model.TypeOfSertification
+        </dd>
+        <dt class="col-sm-2">
+            <label asp-for="Mark"></label>
+        </dt>
+        <dd class="col-sm-10">
+            @Model.Mark
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.Id"></a>|
+    <a asp-action="Index">Back to List</a>
+</div>

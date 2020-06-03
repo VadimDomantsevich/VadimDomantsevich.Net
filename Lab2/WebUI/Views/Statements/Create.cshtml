@@ -1,0 +1,50 @@
+﻿@model StatementViewModel
+@{ ViewData["Title"] = "Create"; }
+
+<h1>Create</h1>
+
+<h4>Statement</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="StudentId" class="control-label"></label>
+                <select asp-for="StudentId" asp-items="Model.Students" class="form-control"></select>
+                <span asp-validation-for="StudentId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="SubjectId" class="control-label"></label>
+                <select asp-for="SubjectId" asp-items="Model.Subjects" class="form-control"></select>
+                <span asp-validation-for="SubjectId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="SemesterId" class="control-label"></label>
+                <select asp-for="SemesterId" asp-items="Model.Semesters" class="form-control"></select>
+                <span asp-validation-for="SemesterId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="TypeOfSertification" class="control-label"></label>
+                <input asp-for="TypeOfSertification" class="form-control" />
+                <span asp-validation-for="TypeOfSertification" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Mark" class="control-label"></label>
+                <input asp-for="Mark" class="form-control" />
+                <span asp-validation-for="Mark" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
