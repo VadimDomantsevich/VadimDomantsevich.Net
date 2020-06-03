@@ -6,6 +6,7 @@ using Microsoft.Extensions.Logging;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
+using WebUI.Api;
 using WebUI.Identity;
 using WebUI.Models;
 
@@ -14,12 +15,12 @@ namespace WebUI.Controllers
     [Authorize(Roles = Roles.Manager)]
     public class SemestersController : Controller
     {
-        private readonly SemesterService _semesterService;
+        private readonly ISemestersApi _semestersApi;
         private readonly ILogger<SemestersController> _logger;
 
-        public SemestersController(SemesterService semesterService, ILogger<SemestersController> logger)
+        public SemestersController(ISemestersApi semestersApi, ILogger<SemestersController> logger)
         {
-            _semesterService = semesterService;
+            _semestersApi = semestersApi;
             _logger = logger;
         }
 
@@ -27,14 +28,14 @@ namespace WebUI.Controllers
         [AllowAnonymous]
         public async Task<IActionResult> Index()
         {
-            var semesterViewModels = (await _semesterService.GetAll()).Select(CreateSemesterViewModel);
+            var semesterViewModels = (await _semestersApi.GetAll()).Select(CreateSemesterViewModel);
             return View(semesterViewModels);
         }
 
         // GET: Semesters/Details/5
         public async Task<IActionResult> Details(int id)
         {
-            var semester = await _semesterService.GetById(id);
+            var semester = await _semestersApi.GetById(id);
 
             var semesterViewModel = CreateSemesterViewModel(semester);
 
@@ -54,7 +55,7 @@ namespace WebUI.Controllers
         {
             try
             {
-                await _semesterService.Create(new Semester
+                await _semestersApi.Add(new Semester
                 {
                     Id = semesterViewModel.Id,
                     Number = semesterViewModel.Number,
@@ -73,7 +74,7 @@ namespace WebUI.Controllers
         // GET: Semesters/Edit/5
         public async Task<IActionResult> Edit(int id)
         {
-            var semester = await _semesterService.GetById(id);
+            var semester = await _semestersApi.GetById(id);
 
             var semesterViewModel = CreateSemesterViewModel(semester);
 
@@ -87,7 +88,7 @@ namespace WebUI.Controllers
         {
             try
             {
-                await _semesterService.Update(new Semester
+                await _semestersApi.Update(new Semester
                 {
                     Id = semesterViewModel.Id,
                     Number = semesterViewModel.Number,
@@ -106,7 +107,7 @@ namespace WebUI.Controllers
         // GET: Semesters/Delete/5
         public async Task<IActionResult> Delete(int id)
         {
-            var semester = await _semesterService.GetById(id);
+            var semester = await _semestersApi.GetById(id);
 
             var semesterViewModel = CreateSemesterViewModel(semester);
 
@@ -120,7 +121,7 @@ namespace WebUI.Controllers
         {
             try
             {
-                await _semesterService.Delete(semesterViewModel.Id);
+                await _semestersApi.Delete(semesterViewModel.Id);
 
                 return RedirectToAction(nameof(Index));
             }

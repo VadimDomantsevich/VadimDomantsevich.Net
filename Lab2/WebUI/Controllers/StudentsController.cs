@@ -8,6 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using WebUI.Api;
 using WebUI.Identity;
 using WebUI.Models;
 
@@ -16,14 +17,14 @@ namespace WebUI.Controllers
     [Authorize(Roles = Roles.Manager)]
     public class StudentsController : Controller
     {
-        private readonly StudentService _studentService;
-        private readonly GroupService _groupService;
+        private readonly IStudentsApi _studentsApi;
+        private readonly IGroupsApi _groupsApi;
         private readonly ILogger<StudentsController> _logger;
 
-        public StudentsController(StudentService studentService, GroupService groupService, ILogger<StudentsController> logger)
+        public StudentsController(IStudentsApi studentsApi, IGroupsApi groupsApi, ILogger<StudentsController> logger)
         {
-            _studentService = studentService;
-            _groupService = groupService;
+            _studentsApi = studentsApi;
+            _groupsApi = groupsApi;
             _logger = logger;
         }
 
@@ -31,8 +32,8 @@ namespace WebUI.Controllers
         [AllowAnonymous]
         public async Task<ActionResult> Index()
         {
-            var groups = await _groupService.GetAll();
-            var students = (await _studentService.GetAll())
+            var groups = await _groupsApi.GetAll();
+            var students = (await _studentsApi.GetAll())
                                   .Select(student => CreateStudentViewModel(student, groups))
                                   .OrderBy(student => student.GroupName);
 
@@ -42,8 +43,8 @@ namespace WebUI.Controllers
         // GET: Student/Details/5
         public async Task<ActionResult> Details(int id)
         {
-            var groups = await _groupService.GetAll();
-            var student = CreateStudentViewModel(await _studentService.GetById(id), groups);
+            var groups = await _groupsApi.GetAll();
+            var student = CreateStudentViewModel(await _studentsApi.GetById(id), groups);
 
             return View(student);
         }
@@ -53,7 +54,7 @@ namespace WebUI.Controllers
         {
             var studentViewModel = new StudentViewModel
             {
-                Groups = new SelectList(await _groupService.GetAll(), "Id", "Name")
+                Groups = new SelectList(await _groupsApi.GetAll(), "Id", "Name")
             };
 
             return View(studentViewModel);
@@ -66,7 +67,7 @@ namespace WebUI.Controllers
         {
             try
             {
-                await _studentService.Create(new Student
+                await _studentsApi.Add(new Student
                 {
                     FullName = studentViewModel.FullName,
                     PhoneNumber = studentViewModel.PhoneNumber,
@@ -79,7 +80,7 @@ namespace WebUI.Controllers
             catch (Exception exception)
             {
                 _logger.LogError($"Error occured during creating student. Exception: {exception.Message}");
-                studentViewModel.Groups = new SelectList(await _groupService.GetAll(), "Id", "Name");
+                studentViewModel.Groups = new SelectList(await _groupsApi.GetAll(), "Id", "Name");
                 return View(studentViewModel);
             }
         }
@@ -87,9 +88,9 @@ namespace WebUI.Controllers
         // GET: Student/Edit/5
         public async Task<ActionResult> Edit(int id)
         {
-            var groups = await _groupService.GetAll();
-            var studentViewModel = CreateStudentViewModel(await _studentService.GetById(id), groups);
-            studentViewModel.Groups = new SelectList(await _groupService.GetAll(), "Id", "Name");
+            var groups = await _groupsApi.GetAll();
+            var studentViewModel = CreateStudentViewModel(await _studentsApi.GetById(id), groups);
+            studentViewModel.Groups = new SelectList(await _groupsApi.GetAll(), "Id", "Name");
             return View(studentViewModel);
         }
 
@@ -100,7 +101,7 @@ namespace WebUI.Controllers
         {
             try
             {
-                await _studentService.Update(new Student
+                await _studentsApi.Update(new Student
                 {
                     Id = studentViewModel.Id,
                     FullName = studentViewModel.FullName,
@@ -114,7 +115,7 @@ namespace WebUI.Controllers
             catch (Exception exception)
             {
                 _logger.LogError($"Error occured during editing student. Exception: {exception.Message}");
-                studentViewModel.Groups = new SelectList(await _groupService.GetAll(), "Id", "Name");
+                studentViewModel.Groups = new SelectList(await _groupsApi.GetAll(), "Id", "Name");
                 return View(studentViewModel);
             }
         }
@@ -122,8 +123,8 @@ namespace WebUI.Controllers
         // GET: Student/Delete/5
         public async Task<ActionResult> Delete(int id)
         {
-            var groups = await _groupService.GetAll();
-            var studentViewModel = CreateStudentViewModel(await _studentService.GetById(id), groups);
+            var groups = await _groupsApi.GetAll();
+            var studentViewModel = CreateStudentViewModel(await _studentsApi.GetById(id), groups);
             return View(studentViewModel);
         }
 
@@ -134,7 +135,7 @@ namespace WebUI.Controllers
         {
             try
             {
-                await _studentService.Delete(studentViewModel.Id);
+                await _studentsApi.Delete(studentViewModel.Id);
 
                 return RedirectToAction(nameof(Index));
             }

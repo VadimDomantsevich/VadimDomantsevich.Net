@@ -6,6 +6,7 @@ using Microsoft.Extensions.Logging;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
+using WebUI.Api;
 using WebUI.Identity;
 using WebUI.Models;
 
@@ -14,12 +15,12 @@ namespace WebUI.Controllers
     [Authorize(Roles = Roles.Manager)]
     public class SpecialtiesController : Controller
     {
-        private readonly SpecialtyService _specialtyService;
+        private readonly ISpecialtiesApi _specialtiesApi;
         private readonly ILogger<SpecialtiesController> _logger;
 
-        public SpecialtiesController(SpecialtyService specialtyService, ILogger<SpecialtiesController> logger)
+        public SpecialtiesController(ISpecialtiesApi specialtiesApi, ILogger<SpecialtiesController> logger)
         {
-            _specialtyService = specialtyService;
+            _specialtiesApi = specialtiesApi;
             _logger = logger;
         }
 
@@ -27,14 +28,14 @@ namespace WebUI.Controllers
         [AllowAnonymous]
         public async Task<IActionResult> Index()
         {
-            var specialtyViewModels = (await _specialtyService.GetAll()).Select(CreateSpecialtyViewModel);
+            var specialtyViewModels = (await _specialtiesApi.GetAll()).Select(CreateSpecialtyViewModel);
             return View(specialtyViewModels);
         }
 
         // GET: Specialties/Details/5
         public async Task<IActionResult> Details(int id)
         {
-            var specialty = await _specialtyService.GetById(id);
+            var specialty = await _specialtiesApi.GetById(id);
 
             var specialtyViewModel = CreateSpecialtyViewModel(specialty);
 
@@ -54,7 +55,7 @@ namespace WebUI.Controllers
         {
             try
             {
-                await _specialtyService.Create(new Specialty
+                await _specialtiesApi.Add(new Specialty
                 {
                     Id = specialtyViewModel.Id,
                     Name = specialtyViewModel.Name
@@ -72,7 +73,7 @@ namespace WebUI.Controllers
         // GET: Specialties/Edit/5
         public async Task<IActionResult> Edit(int id)
         {
-            var specialty = await _specialtyService.GetById(id);
+            var specialty = await _specialtiesApi.GetById(id);
 
             var specialtyViewModel = CreateSpecialtyViewModel(specialty);
 
@@ -86,7 +87,7 @@ namespace WebUI.Controllers
         {
             try
             {
-                await _specialtyService.Update(new Specialty
+                await _specialtiesApi.Update(new Specialty
                 {
                     Id = categoryViewModel.Id,
                     Name = categoryViewModel.Name
@@ -104,7 +105,7 @@ namespace WebUI.Controllers
         // GET: Specialties/Delete/5
         public async Task<IActionResult> Delete(int id)
         {
-            var specialty = await _specialtyService.GetById(id);
+            var specialty = await _specialtiesApi.GetById(id);
 
             var specialtyViewModel = CreateSpecialtyViewModel(specialty);
 
@@ -118,7 +119,7 @@ namespace WebUI.Controllers
         {
             try
             {
-                await _specialtyService.Delete(specialtyViewModel.Id);
+                await _specialtiesApi.Delete(specialtyViewModel.Id);
 
                 return RedirectToAction(nameof(Index));
             }

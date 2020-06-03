@@ -6,6 +6,7 @@ using Microsoft.Extensions.Logging;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
+using WebUI.Api;
 using WebUI.Identity;
 using WebUI.Models;
 
@@ -14,12 +15,12 @@ namespace WebUI.Controllers
     [Authorize(Roles = Roles.Manager)]
     public class SubjectsController : Controller
     {
-        private readonly SubjectService _subjectService;
+        private readonly ISubjectsApi _subjectsApi;
         private readonly ILogger<SubjectsController> _logger;
 
-        public SubjectsController(SubjectService subjectService, ILogger<SubjectsController> logger)
+        public SubjectsController(ISubjectsApi subjectsApi, ILogger<SubjectsController> logger)
         {
-            _subjectService = subjectService;
+            _subjectsApi = subjectsApi;
             _logger = logger;
         }
 
@@ -27,14 +28,14 @@ namespace WebUI.Controllers
         [AllowAnonymous]
         public async Task<IActionResult> Index()
         {
-            var subjectViewModels = (await _subjectService.GetAll()).Select(CreateSubjectViewModel);
+            var subjectViewModels = (await _subjectsApi.GetAll()).Select(CreateSubjectViewModel);
             return View(subjectViewModels);
         }
 
         // GET: Subject/Details/5
         public async Task<IActionResult> Details(int id)
         {
-            var subject = await _subjectService.GetById(id);
+            var subject = await _subjectsApi.GetById(id);
 
             var subjectViewModel = CreateSubjectViewModel(subject);
 
@@ -54,7 +55,7 @@ namespace WebUI.Controllers
         {
             try
             {
-                await _subjectService.Create(new Subject
+                await _subjectsApi.Add(new Subject
                 {
                     Id = subjectViewModel.Id,
                     Name = subjectViewModel.Name
@@ -72,7 +73,7 @@ namespace WebUI.Controllers
         // GET: Subject/Edit/5
         public async Task<IActionResult> Edit(int id)
         {
-            var subject = await _subjectService.GetById(id);
+            var subject = await _subjectsApi.GetById(id);
 
             var subjectViewModel = CreateSubjectViewModel(subject);
 
@@ -86,7 +87,7 @@ namespace WebUI.Controllers
         {
             try
             {
-                await _subjectService.Update(new Subject
+                await _subjectsApi.Update(new Subject
                 {
                     Id = subjectViewModel.Id,
                     Name = subjectViewModel.Name
@@ -104,7 +105,7 @@ namespace WebUI.Controllers
         // GET: Student/Delete/5
         public async Task<IActionResult> Delete(int id)
         {
-            var subject = await _subjectService.GetById(id);
+            var subject = await _subjectsApi.GetById(id);
 
             var subjectViewModel = CreateSubjectViewModel(subject);
 
@@ -118,7 +119,7 @@ namespace WebUI.Controllers
         {
             try
             {
-                await _subjectService.Delete(subjectViewModel.Id);
+                await _subjectsApi.Delete(subjectViewModel.Id);
 
                 return RedirectToAction(nameof(Index));
             }

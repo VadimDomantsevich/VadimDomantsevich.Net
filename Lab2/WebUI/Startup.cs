@@ -3,6 +3,8 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using System;
+using WebUI.Api;
 using WebUI.DI;
 using WebUI.Identity;
 
@@ -22,6 +24,15 @@ namespace WebUI
         {
             services.AddControllersWithViews().AddRazorRuntimeCompilation();
             services.ConfigureAppServices(Configuration);
+
+            services.AddHttpClient("WebApi")
+                .ConfigureHttpClient(c => c.BaseAddress = new Uri(Configuration["ApiUrls:WebApi"]))
+                .AddTypedClient(RestClient.For<IGroupsApi>)
+                .AddTypedClient(RestClient.For<ISpecialtiesApi>)
+                .AddTypedClient(RestClient.For<ISubjectsApi>)
+                .AddTypedClient(RestClient.For<ISemestersApi>)
+                .AddTypedClient(RestClient.For<IStatementsApi>)
+                .AddTypedClient(RestClient.For<IStudentsApi>);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

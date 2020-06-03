@@ -8,6 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using WebUI.Api;
 using WebUI.Identity;
 using WebUI.Models;
 
@@ -16,14 +17,14 @@ namespace WebUI.Controllers
     [Authorize(Roles = Roles.Manager)]
     public class GroupsController : Controller
     {
-        private readonly GroupService _groupService;
-        private readonly SpecialtyService _specialtyService;
+        private readonly IGroupsApi _groupsApi;
+        private readonly ISpecialtiesApi _specialtiesApi;
         private readonly ILogger<GroupsController> _logger;
 
-        public GroupsController(GroupService groupService, SpecialtyService specialtyService, ILogger<GroupsController> logger)
+        public GroupsController(IGroupsApi groupsApi, ISpecialtiesApi specialtiesApi, ILogger<GroupsController> logger)
         {
-            _groupService = groupService;
-            _specialtyService = specialtyService;
+            _groupsApi = groupsApi;
+            _specialtiesApi = specialtiesApi;
             _logger = logger;
         }
 
@@ -31,8 +32,8 @@ namespace WebUI.Controllers
         [AllowAnonymous]
         public async Task<ActionResult> Index()
         {
-            var specialties = await _specialtyService.GetAll();
-            var groups = (await _groupService.GetAll())
+            var specialties = await _specialtiesApi.GetAll();
+            var groups = (await _groupsApi.GetAll())
                                   .Select(group => CreateGroupViewModel(group, specialties))
                                   .OrderBy(group => group.SpecialtyName);
 
@@ -42,8 +43,8 @@ namespace WebUI.Controllers
         // GET: Characteristics/Details/5
         public async Task<ActionResult> Details(int id)
         {
-            var specialties = await _specialtyService.GetAll();
-            var group = CreateGroupViewModel(await _groupService.GetById(id), specialties);
+            var specialties = await _specialtiesApi.GetAll();
+            var group = CreateGroupViewModel(await _groupsApi.GetById(id), specialties);
 
             return View(group);
         }
@@ -53,7 +54,7 @@ namespace WebUI.Controllers
         {
             var groupViewModel = new GroupViewModel
             {
-                SpecialtiesSelectList = new SelectList(await _specialtyService.GetAll(), "Id", "Name")
+                SpecialtiesSelectList = new SelectList(await _specialtiesApi.GetAll(), "Id", "Name")
             };
 
             return View(groupViewModel);
@@ -66,7 +67,7 @@ namespace WebUI.Controllers
         {
             try
             {
-                await _groupService.Create(new Group
+                await _groupsApi.Add(new Group
                 {
                     SpecialtyId = groupViewModel.SpecialtyId,
                     Name = groupViewModel.Name
@@ -77,7 +78,7 @@ namespace WebUI.Controllers
             catch (Exception exception)
             {
                 _logger.LogError($"Error occured during creating group. Exception: {exception.Message}");
-                groupViewModel.SpecialtiesSelectList = new SelectList(await _specialtyService.GetAll(), "Id", "Name");
+                groupViewModel.SpecialtiesSelectList = new SelectList(await _specialtiesApi.GetAll(), "Id", "Name");
                 return View(groupViewModel);
             }
         }
@@ -85,9 +86,9 @@ namespace WebUI.Controllers
         // GET: Characteristics/Edit/5
         public async Task<ActionResult> Edit(int id)
         {
-            var specialties = await _specialtyService.GetAll();
-            var groupViewModel = CreateGroupViewModel(await _groupService.GetById(id), specialties);
-            groupViewModel.SpecialtiesSelectList = new SelectList(await _specialtyService.GetAll(), "Id", "Name");
+            var specialties = await _specialtiesApi.GetAll();
+            var groupViewModel = CreateGroupViewModel(await _groupsApi.GetById(id), specialties);
+            groupViewModel.SpecialtiesSelectList = new SelectList(await _specialtiesApi.GetAll(), "Id", "Name");
             return View(groupViewModel);
         }
 
@@ -98,7 +99,7 @@ namespace WebUI.Controllers
         {
             try
             {
-                await _groupService.Update(new Group
+                await _groupsApi.Update(new Group
                 {
                     Id = groupViewModel.Id,
                     SpecialtyId = groupViewModel.SpecialtyId,
@@ -110,7 +111,7 @@ namespace WebUI.Controllers
             catch (Exception exception)
             {
                 _logger.LogError($"Error occured during editing group. Exception: {exception.Message}");
-                groupViewModel.SpecialtiesSelectList = new SelectList(await _specialtyService.GetAll(), "Id", "Name");
+                groupViewModel.SpecialtiesSelectList = new SelectList(await _specialtiesApi.GetAll(), "Id", "Name");
                 return View(groupViewModel);
             }
         }
@@ -118,9 +119,9 @@ namespace WebUI.Controllers
         // GET: Characteristics/Delete/5
         public async Task<ActionResult> Delete(int id)
         {
-            var specialties = await _specialtyService.GetAll();
+            var specialties = await _specialtiesApi.GetAll();
 
-            var groupViewModel = CreateGroupViewModel(await _groupService.GetById(id), specialties);
+            var groupViewModel = CreateGroupViewModel(await _groupsApi.GetById(id), specialties);
 
             return View(groupViewModel);
         }
@@ -132,7 +133,7 @@ namespace WebUI.Controllers
         {
             try
             {
-                await _groupService.Delete(groupViewModel.Id);
+                await _groupsApi.Delete(groupViewModel.Id);
 
                 return RedirectToAction(nameof(Index));
             }

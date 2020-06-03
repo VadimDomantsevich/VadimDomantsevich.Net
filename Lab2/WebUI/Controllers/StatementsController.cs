@@ -8,6 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using WebUI.Api;
 using WebUI.Identity;
 using WebUI.Models;
 
@@ -16,24 +17,24 @@ namespace WebUI.Controllers
     [Authorize(Roles = Roles.Manager)]
     public class StatementsController : Controller
     {
-        private readonly StatementService _statementService;
-        private readonly StudentService _studentService;
+        private readonly IStatementsApi _statementsApi;
+        private readonly IStudentsApi _studentsApi;
         private readonly ILogger<StatementsController> _logger;
-        private readonly SemesterService _semesterService;
-        private readonly SubjectService _subjectService;
+        private readonly ISemestersApi _semestersApi;
+        private readonly ISubjectsApi _subjectsApi;
 
         public StatementsController(
-            StatementService statementService,
-            StudentService studentService,
+            IStatementsApi statementsApi,
+            IStudentsApi studentsApi,
             ILogger<StatementsController> logger,
-            SemesterService semesterService,
-            SubjectService subjectService)
+            ISemestersApi semestersApi,
+            ISubjectsApi subjectsApi)
         {
-            _statementService = statementService;
-            _studentService = studentService;
+            _statementsApi = statementsApi;
+            _studentsApi = studentsApi;
             _logger = logger;
-            _semesterService = semesterService;
-            _subjectService = subjectService;
+            _semestersApi = semestersApi;
+            _subjectsApi = subjectsApi;
         }
 
 
@@ -41,10 +42,10 @@ namespace WebUI.Controllers
         [AllowAnonymous]
         public async Task<ActionResult> Index()
         {
-            var students = await _studentService.GetAll();
-            var subjects = await _subjectService.GetAll();
-            var semesters = await _semesterService.GetAll();
-            var statementViewModels = (await _statementService.GetAll())
+            var students = await _studentsApi.GetAll();
+            var subjects = await _subjectsApi.GetAll();
+            var semesters = await _semestersApi.GetAll();
+            var statementViewModels = (await _statementsApi.GetAll())
                                     .Select(statement => CreateStatementViewModel(statement, students, subjects, semesters))
                                     .OrderBy(statement => statement.Mark);
 
@@ -54,10 +55,10 @@ namespace WebUI.Controllers
         // GET: Statements/Details/5
         public async Task<ActionResult> Details(int id)
         {
-            var students = await _studentService.GetAll();
-            var subjects = await _subjectService.GetAll();
-            var semesters = await _semesterService.GetAll();
-            var statement = await _statementService.GetById(id);
+            var students = await _studentsApi.GetAll();
+            var subjects = await _subjectsApi.GetAll();
+            var semesters = await _semestersApi.GetAll();
+            var statement = await _statementsApi.GetById(id);
 
             var statementViewModel = CreateStatementViewModel(statement, students, subjects, semesters);
 
@@ -69,9 +70,9 @@ namespace WebUI.Controllers
         {
             var statementViewModel = new StatementViewModel
             {
-                Students = new SelectList(await _studentService.GetAll(), "Id", "FullName"),
-                Semesters = new SelectList(await _semesterService.GetAll(), "Id", "Number"),
-                Subjects = new SelectList(await _subjectService.GetAll(), "Id", "Name")
+                Students = new SelectList(await _studentsApi.GetAll(), "Id", "FullName"),
+                Semesters = new SelectList(await _semestersApi.GetAll(), "Id", "Number"),
+                Subjects = new SelectList(await _subjectsApi.GetAll(), "Id", "Name")
             };
 
             return View(statementViewModel);
@@ -84,7 +85,7 @@ namespace WebUI.Controllers
         {
             try
             {
-                await _statementService.Create(new Statement
+                await _statementsApi.Add(new Statement
                 {
                     TypeOfSertification = statementViewModel.TypeOfSertification,
                     Mark = statementViewModel.Mark,
@@ -98,9 +99,9 @@ namespace WebUI.Controllers
             catch (Exception exception)
             {
                 _logger.LogError($"Error occured during creating statement. Exception: {exception.Message}");
-                statementViewModel.Subjects = new SelectList(await _subjectService.GetAll(), "Id", "Name");
-                statementViewModel.Students = new SelectList(await _studentService.GetAll(), "Id", "FullName");
-                statementViewModel.Semesters = new SelectList(await _semesterService.GetAll(), "Id", "Number");
+                statementViewModel.Subjects = new SelectList(await _subjectsApi.GetAll(), "Id", "Name");
+                statementViewModel.Students = new SelectList(await _studentsApi.GetAll(), "Id", "FullName");
+                statementViewModel.Semesters = new SelectList(await _semestersApi.GetAll(), "Id", "Number");
                 return View(statementViewModel);
             }
         }
@@ -108,16 +109,16 @@ namespace WebUI.Controllers
         // GET: Statements/Edit/5
         public async Task<ActionResult> Edit(int id)
         {
-            var students = await _studentService.GetAll();
-            var subjects = await _subjectService.GetAll();
-            var semesters = await _semesterService.GetAll();
-            var statement = await _statementService.GetById(id);
+            var students = await _studentsApi.GetAll();
+            var subjects = await _subjectsApi.GetAll();
+            var semesters = await _semestersApi.GetAll();
+            var statement = await _statementsApi.GetById(id);
 
             var statementViewModel = CreateStatementViewModel(statement, students, subjects, semesters);
 
-            statementViewModel.Students = new SelectList(await _studentService.GetAll(), "Id", "FullName");
-            statementViewModel.Semesters = new SelectList(await _semesterService.GetAll(), "Id", "Number");
-            statementViewModel.Subjects = new SelectList(await _subjectService.GetAll(), "Id", "Name");
+            statementViewModel.Students = new SelectList(await _studentsApi.GetAll(), "Id", "FullName");
+            statementViewModel.Semesters = new SelectList(await _semestersApi.GetAll(), "Id", "Number");
+            statementViewModel.Subjects = new SelectList(await _subjectsApi.GetAll(), "Id", "Name");
 
             return View(statementViewModel);
         }
@@ -129,7 +130,7 @@ namespace WebUI.Controllers
         {
             try
             {
-                await _statementService.Update(new Statement
+                await _statementsApi.Update(new Statement
                 {
                     Id = statementViewModel.Id,
                     TypeOfSertification = statementViewModel.TypeOfSertification,
@@ -144,9 +145,9 @@ namespace WebUI.Controllers
             catch (Exception exception)
             {
                 _logger.LogError($"Error occured during editing statement. Exception: {exception.Message}");
-                statementViewModel.Students = new SelectList(await _studentService.GetAll(), "Id", "FullName");
-                statementViewModel.Subjects = new SelectList(await _subjectService.GetAll(), "Id", "Name");
-                statementViewModel.Semesters = new SelectList(await _semesterService.GetAll(), "Id", "Number");
+                statementViewModel.Students = new SelectList(await _studentsApi.GetAll(), "Id", "FullName");
+                statementViewModel.Subjects = new SelectList(await _subjectsApi.GetAll(), "Id", "Name");
+                statementViewModel.Semesters = new SelectList(await _semestersApi.GetAll(), "Id", "Number");
                 return View(statementViewModel);
             }
         }
@@ -154,10 +155,10 @@ namespace WebUI.Controllers
         // GET: Statements/Delete/5
         public async Task<ActionResult> Delete(int id)
         {
-            var students = await _studentService.GetAll();
-            var subjects = await _subjectService.GetAll();
-            var semesters = await _semesterService.GetAll();
-            var statement = await _statementService.GetById(id);
+            var students = await _studentsApi.GetAll();
+            var subjects = await _subjectsApi.GetAll();
+            var semesters = await _semestersApi.GetAll();
+            var statement = await _statementsApi.GetById(id);
             var statementViewModel = CreateStatementViewModel(statement, students, subjects, semesters);
             return View(statementViewModel);
         }
@@ -169,7 +170,7 @@ namespace WebUI.Controllers
         {
             try
             {
-                await _statementService.Delete(statement.Id);
+                await _statementsApi.Delete(statement.Id);
 
                 return RedirectToAction(nameof(Index));
             }
