@@ -1,5 +1,6 @@
 ﻿using BLL.Models;
 using BLL.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Logging;
@@ -7,10 +8,12 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using WebUI.Identity;
 using WebUI.Models;
 
 namespace WebUI.Controllers
 {
+    [Authorize(Roles = Roles.Manager)]
     public class StudentsController : Controller
     {
         private readonly StudentService _studentService;
@@ -25,6 +28,7 @@ namespace WebUI.Controllers
         }
 
         // GET: Student
+        [AllowAnonymous]
         public async Task<ActionResult> Index()
         {
             var groups = await _groupService.GetAll();

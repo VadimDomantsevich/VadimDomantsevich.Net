@@ -4,6 +4,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using WebUI.DI;
+using WebUI.Identity;
 
 namespace WebUI
 {
@@ -28,6 +29,8 @@ namespace WebUI
         {
             if (env.IsDevelopment())
             {
+                var dbInitilizer = app?.ApplicationServices.GetService<DBInitializer>();
+                dbInitilizer.Seed().GetAwaiter().GetResult();
                 app.UseDeveloperExceptionPage();
                 app.UseBrowserLink();
             }
@@ -42,6 +45,7 @@ namespace WebUI
 
             app.UseRouting();
 
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>

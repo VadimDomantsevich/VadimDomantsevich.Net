@@ -14,6 +14,7 @@ namespace BLL.Infrastructure
             CreateMap<StatementDTO, Statement>().ReverseMap();
             CreateMap<StudentDTO, Student>().ReverseMap();
             CreateMap<SubjectDTO, Subject>().ReverseMap();
+            CreateMap<UserDTO, User>().ReverseMap();
         }
     }
 }

@@ -1,14 +1,17 @@
 ﻿using BLL.Models;
 using BLL.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
+using WebUI.Identity;
 using WebUI.Models;
 
 namespace WebUI.Controllers
 {
+    [Authorize(Roles = Roles.Manager)]
     public class SemestersController : Controller
     {
         private readonly SemesterService _semesterService;
@@ -21,6 +24,7 @@ namespace WebUI.Controllers
         }
 
         // GET: Semesters
+        [AllowAnonymous]
         public async Task<IActionResult> Index()
         {
             var semesterViewModels = (await _semesterService.GetAll()).Select(CreateSemesterViewModel);

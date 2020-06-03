@@ -1,9 +1,10 @@
 ﻿using DAL.DTO;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace DAL.EntityFramework
 {
-    public class DBContext : DbContext
+    public class DBContext : IdentityDbContext<UserDTO>
     {
         public DBContext(DbContextOptions<DBContext> options)
             : base(options)
@@ -58,6 +59,8 @@ namespace DAL.EntityFramework
                 .WithMany()
                 .HasForeignKey(student => student.GroupId)
                 .OnDelete(DeleteBehavior.Cascade);
+
+            base.OnModelCreating(modelBuilder);
         }
     }
 }
